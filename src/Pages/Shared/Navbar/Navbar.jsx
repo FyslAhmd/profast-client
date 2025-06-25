@@ -1,22 +1,23 @@
 import React from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import ProFastLogo from "../ProFastLogo/ProFastLogo";
+import { GoArrowUpRight } from "react-icons/go";
 
 const Navbar = () => {
   const navItems = (
     <>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-      <li>
-        <NavLink to="/about">About Us</NavLink>
-      </li>
-      <li>
-        <NavLink to="/about">About Us</NavLink>
-      </li>
-      <li>
-        <NavLink to="/about">About Us</NavLink>
-      </li>
+      <NavLink className="text-base font-medium mx-2 px-3 py-2" to="/">
+        Home
+      </NavLink>
+      <NavLink className="text-base font-medium mx-2 px-3 py-2" to="/coverage">
+        Coverage
+      </NavLink>
+      <NavLink className="text-base font-medium mx-2 px-3 py-2" to="/about">
+        About Us
+      </NavLink>
+      <NavLink className="text-base font-medium mx-2 px-3 py-2" to="/about">
+        About Us
+      </NavLink>
     </>
   );
   return (
@@ -53,7 +54,13 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        <Link className="btn rounded-full bg-transparent" to="/login">
+          Sign In
+        </Link>
+        <Link className="btn bg-primary rounded-full ml-2" to="/register">
+          Sign Up
+        </Link>
+        <GoArrowUpRight size={28} className="rounded-full bg-black text-green-400"/>
       </div>
     </div>
   );

@@ -49,3 +49,7 @@ body {
 .animate-slide-right {
   animation: slide-right 0.4s ease-out;
 }
+
+a.active {
+  @apply rounded-full bg-primary;
+}
