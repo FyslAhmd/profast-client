@@ -1,11 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import regLogo from "../../../assets/image-upload-icon.png";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import useAuth from "../../../Hooks/useAuth";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Register = () => {
+  const navigate = useNavigate();
   const { createUser } = useAuth();
   const {
     register,
@@ -13,10 +14,10 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
     createUser(data.email, data.password)
       .then((res) => {
         console.log(res.user);
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);

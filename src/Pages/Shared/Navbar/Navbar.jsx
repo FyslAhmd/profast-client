@@ -12,8 +12,11 @@ const Navbar = () => {
       <NavLink className="text-base font-medium mx-2 px-3 py-2" to="/coverage">
         Coverage
       </NavLink>
-      <NavLink className="text-base font-medium mx-2 px-3 py-2" to="/about">
-        About Us
+      <NavLink
+        className="text-base font-medium mx-2 px-3 py-2"
+        to="/sendParcel"
+      >
+        Send Parcel
       </NavLink>
       <NavLink className="text-base font-medium mx-2 px-3 py-2" to="/about">
         About Us
@@ -60,7 +63,10 @@ const Navbar = () => {
         <Link className="btn bg-primary rounded-full ml-2" to="/register">
           Sign Up
         </Link>
-        <GoArrowUpRight size={28} className="rounded-full bg-black text-green-400"/>
+        <GoArrowUpRight
+          size={28}
+          className="rounded-full bg-black text-green-400"
+        />
       </div>
     </div>
   );

@@ -58,12 +58,6 @@ const Coverage = () => {
     }
   };
 
-  const handleReset = () => {
-    setSearchTerm("");
-    setSuggestions([]);
-    setTarget(null);
-  };
-
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -76,14 +70,13 @@ const Coverage = () => {
       );
     });
 
-    setSuggestions(filtered.slice(0, 5)); // limit to top 5 suggestions
+    setSuggestions(filtered.slice(0, 5));
   };
 
   const handleSuggestionClick = (districtName) => {
     setSearchTerm(districtName);
     setSuggestions([]);
 
-    // Find the exact district (not partial match)
     const exact = serviceCenters.find(
       (center) => center.district.toLowerCase() === districtName.toLowerCase()
     );
@@ -121,7 +114,6 @@ const Coverage = () => {
           </button>
         </div>
 
-        {/* Suggestions Dropdown */}
         {suggestions.length > 0 && (
           <ul className="absolute bg-white border w-full z-[9999] rounded shadow mt-2 max-h-60 overflow-y-auto">
             {suggestions.map((s, i) => (
@@ -140,7 +132,6 @@ const Coverage = () => {
         )}
       </div>
 
-      {/* Map container */}
       <div className="h-[600px] w-full rounded-lg overflow-hidden shadow-md relative z-0">
         <MapContainer
           center={[23.8103, 90.4125]}
@@ -153,12 +144,10 @@ const Coverage = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {/* Handle search fly-to */}
           {target && (
             <FlyToAndOpenPopup target={target} popupRefs={popupRefs} />
           )}
 
-          {/* All service center markers */}
           {serviceCenters.map((center, index) => (
             <Marker
               key={index}
