@@ -2,8 +2,10 @@ import React from "react";
 import { Link, NavLink } from "react-router";
 import ProFastLogo from "../ProFastLogo/ProFastLogo";
 import { GoArrowUpRight } from "react-icons/go";
+import useAuth from "../../../Hooks/useAuth";
 
 const Navbar = () => {
+  const { user } = useAuth();
   const navItems = (
     <>
       <NavLink className="text-base font-medium mx-2 px-3 py-2" to="/">
@@ -18,6 +20,16 @@ const Navbar = () => {
       >
         Send Parcel
       </NavLink>
+      {user && (
+        <>
+          <NavLink
+            className="text-base font-medium mx-2 px-3 py-2"
+            to="/dashboard"
+          >
+            Dashboard
+          </NavLink>
+        </>
+      )}
       <NavLink className="text-base font-medium mx-2 px-3 py-2" to="/about">
         About Us
       </NavLink>

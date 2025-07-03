@@ -3,9 +3,11 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useLoaderData } from "react-router";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const SendParcel = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const {
     register,
     handleSubmit,
@@ -19,7 +21,6 @@ const SendParcel = () => {
   const [selectedReceiverRegion, setSelectedReceiverRegion] = useState("");
   const [senderServiceCenters, setSenderServiceCenters] = useState([]);
   const [receiverServiceCenters, setReceiverServiceCenters] = useState([]);
-  const [parcelData, setParcelData] = useState(null);
 
   const regionData = loaderData.reduce((acc, curr) => {
     if (!acc[curr.region]) {
@@ -89,20 +90,34 @@ const SendParcel = () => {
     const { price, costStructure } = calculateCost();
 
     Swal.fire({
-      title: "Delivery Cost Breakdown",
+      title: "<strong>Delivery Cost Breakdown</strong>", // Strong title for a more professional look
       html: `
-        <div style="padding: 20px;">
-          <p style="font-size: 18px; font-weight: bold;">Parcel Type: ${parcelType}</p>
-          <p style="font-size: 16px;">Weight: ${weight} kg</p>
-          <p style="font-size: 16px;">Cost Structure:</p>
-          <pre style="font-size: 14px;text-align:start; background-color: #f7f7f7; border-radius: 5px;">${costStructure}</pre>
-          <p style="font-size: 18px; font-weight: bold; margin-top: 10px;">Total Cost: ৳${price}</p>
-        </div>
-      `,
+    <div style="font-family: 'Arial', sans-serif; padding: 20px; color: #333; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 400px;">
+      <p style="font-size: 20px; font-weight: 600; color: #4a90e2;">Parcel Type:</p>
+      <p style="font-size: 16px; font-weight: 500; margin-top: 5px; color: #333;">${parcelType}</p>
+
+      <hr style="margin: 15px 0; border: 1px solid #e0e0e0;">
+
+      <p style="font-size: 16px; font-weight: 600; color: #4a90e2;">Weight:</p>
+      <p style="font-size: 16px; font-weight: 500; margin-top: 5px; color: #333;">${weight} kg</p>
+
+      <p style="font-size: 16px; font-weight: 600; color: #4a90e2;">Cost Structure:</p>
+      <pre style="font-size: 14px; padding: 10px; background-color: #f4f6f9; border-radius: 5px; border: 1px solid #e0e0e0; color: #555; white-space: pre-wrap; word-wrap: break-word; text-align: left;">${costStructure}</pre>
+
+      <hr style="margin: 15px 0; border: 1px solid #e0e0e0;">
+
+      <p style="font-size: 18px; font-weight: 600; color: #4a90e2;">Total Cost: <span style="color: #d9534f;">৳${price}</span></p>
+    </div>
+  `,
       icon: "info",
       showCancelButton: true,
       confirmButtonText: "Confirm",
       cancelButtonText: "Cancel",
+      confirmButtonColor: "#28a745", // Green confirm button for positive action
+      cancelButtonColor: "#dc3545", // Red cancel button for negative action
+      customClass: {
+        container: "swal-container",
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         const trackingId = `TRK${Math.random()
@@ -113,18 +128,33 @@ const SendParcel = () => {
         const parcelInfo = {
           ...data,
           cost: price,
+          parcel_type: parcelType,
+          document_weight: parcelType === "document" ? "" : weight,
+          created_by: user?.email || "",
+          payment_status: "unpaid",
+          delivary_status: "not_collected",
           creation_date: new Date().toISOString(),
-          user_email: user?.email || "",
           tracking_id: trackingId,
         };
-        setParcelData(parcelInfo);
         console.log("Parcel Info Submitted:", parcelInfo);
 
-        Swal.fire(
-          "Parcel Added!",
-          "Your parcel details have been successfully submitted.",
-          "success"
-        );
+        //save data to server
+        axiosSecure
+          .post("/parcels", parcelInfo)
+          .then((res) => {
+            if (res.data.insertedId) {
+              Swal.fire({
+                icon: "success",
+                title: "Redirecting...",
+                text: "Processing to payment gateway",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     });
   };
@@ -185,14 +215,13 @@ const SendParcel = () => {
             <div className="space-y-4">
               <div className="flex flex-col md:flex-row gap-4 items-center">
                 <div className="flex-1">
-                  <label>Email</label>
+                  <label>Name</label>
                   <input
-                    type="email"
-                    defaultValue={user?.email || ""}
-                    {...register("sender_email", { required: true })}
+                    type="text"
+                    {...register("sender_name", { required: true })}
                     className="border border-gray-400 p-2 w-full rounded-lg"
                   />
-                  {errors.sender_email && (
+                  {errors.sender_name && (
                     <span className="text-red-500">This field is required</span>
                   )}
                 </div>
@@ -274,13 +303,13 @@ const SendParcel = () => {
             <div className="space-y-4">
               <div className="flex flex-col md:flex-row gap-4 items-center">
                 <div className="flex-1">
-                  <label>Email</label>
+                  <label>Name</label>
                   <input
-                    type="email"
-                    {...register("receiver_email", { required: true })}
+                    type="text"
+                    {...register("receiver_name", { required: true })}
                     className="border p-2 w-full rounded-lg"
                   />
-                  {errors.receiver_email && (
+                  {errors.receiver_name && (
                     <span className="text-red-500">This field is required</span>
                   )}
                 </div>
