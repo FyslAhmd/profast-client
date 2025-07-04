@@ -5,7 +5,16 @@ import { GoArrowUpRight } from "react-icons/go";
 import useAuth from "../../../Hooks/useAuth";
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user, logOutUser } = useAuth();
+  const handleLogOut = () => {
+    logOutUser()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const navItems = (
     <>
       <NavLink className="text-base font-medium mx-2 px-3 py-2" to="/">
@@ -69,16 +78,27 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
       <div className="navbar-end">
-        <Link className="btn rounded-full bg-transparent" to="/login">
-          Sign In
-        </Link>
-        <Link className="btn bg-primary rounded-full ml-2" to="/register">
-          Sign Up
-        </Link>
-        <GoArrowUpRight
-          size={28}
-          className="rounded-full bg-black text-green-400"
-        />
+        {user ? (
+          <button
+            className="btn bg-primary rounded-full ml-2"
+            onClick={handleLogOut}
+          >
+            Logout
+          </button>
+        ) : (
+          <>
+            <Link className="btn rounded-full bg-transparent" to="/login">
+              Sign In
+            </Link>
+            <Link className="btn bg-primary rounded-full ml-2" to="/register">
+              Sign Up
+            </Link>
+            <GoArrowUpRight
+              size={28}
+              className="rounded-full bg-black text-green-400"
+            />
+          </>
+        )}
       </div>
     </div>
   );

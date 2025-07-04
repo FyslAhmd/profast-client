@@ -2,12 +2,13 @@ import React from "react";
 import ProFastLogo from "../../Shared/ProFastLogo/ProFastLogo";
 import { useForm } from "react-hook-form";
 import SocialLogin from "../SocialLogin/SocialLogin";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../../Hooks/useAuth";
 
 const Login = () => {
   const { signInUser } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -17,7 +18,7 @@ const Login = () => {
   const onSubmit = (data) => {
     signInUser(data.email, data.password)
       .then((res) => {
-        navigate("/");
+        navigate(location.state ? location.state : "/");
       })
       .catch((err) => {
         console.log(err);

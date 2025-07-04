@@ -5,6 +5,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import dayjs from "dayjs";
 import "dayjs/locale/bn";
 import Swal from "sweetalert2";
+import { Link } from "react-router";
 
 const MyParcels = () => {
   const { user } = useAuth();
@@ -21,8 +22,6 @@ const MyParcels = () => {
   };
 
   const handleView = (parcel) => {};
-
-  const handlePay = (parcel) => {};
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -97,12 +96,20 @@ const MyParcels = () => {
                   >
                     View
                   </button>
-                  <button
-                    onClick={() => handlePay(parcel)}
-                    className="btn btn-success btn-sm mr-2"
-                  >
-                    Pay
-                  </button>
+                  {parcel.payment_status === "paid" ? (
+                    <button
+                      className="btn btn-success btn-sm mr-2 cursor-not-allowed"
+                      disabled
+                    >
+                      Paid
+                    </button>
+                  ) : (
+                    <Link to={`/dashboard/payment/${parcel._id}`}>
+                      <button className="btn btn-success btn-sm mr-2">
+                        Pay
+                      </button>
+                    </Link>
+                  )}
                   <button
                     onClick={() => handleDelete(parcel._id)}
                     className="btn btn-error btn-sm"
