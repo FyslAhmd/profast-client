@@ -7,6 +7,8 @@ import {
   FaHistory,
   FaTruck,
   FaUserCircle,
+  FaUserCheck,
+  FaUserClock,
 } from "react-icons/fa";
 
 const DashboardLayout = () => {
@@ -76,6 +78,18 @@ const DashboardLayout = () => {
             <NavLink to="/dashboard/updateProfile">
               <FaUserCircle className="mr-2" />
               Update Profile
+            </NavLink>
+          </li>
+          <li className="text-xl font-bold">
+            <NavLink to="/dashboard/activeRiders">
+              <FaUserCheck className="mr-2" />
+              Active Riders
+            </NavLink>
+          </li>
+          <li className="text-xl font-bold">
+            <NavLink to="/dashboard/pandingRiders">
+              <FaUserClock className="mr-2" />
+              Pending Riders
             </NavLink>
           </li>
         </ul>

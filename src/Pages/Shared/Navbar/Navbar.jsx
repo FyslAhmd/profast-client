@@ -37,6 +37,12 @@ const Navbar = () => {
           >
             Dashboard
           </NavLink>
+          <NavLink
+            className="text-base font-medium mx-2 px-3 py-2"
+            to="/riderRegistration"
+          >
+            Be a Rider
+          </NavLink>
         </>
       )}
       <NavLink className="text-base font-medium mx-2 px-3 py-2" to="/about">
