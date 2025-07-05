@@ -22,8 +22,8 @@ const PendingRiders = () => {
 
   // Approve/cancel mutations
   const statusMutation = useMutation({
-    mutationFn: async ({ id, status }) =>
-      axiosSecure.patch(`/riders/${id}/status`, { status }),
+    mutationFn: async ({ id, status, email }) =>
+      axiosSecure.patch(`/riders/${id}/status`, { status, email }),
     onSuccess: (data, variables) => {
       Swal.fire(
         "Success!",
@@ -36,7 +36,7 @@ const PendingRiders = () => {
   });
 
   // Handlers
-  const handleStatusUpdate = (id, status) => {
+  const handleStatusUpdate = (id, status, email) => {
     Swal.fire({
       title: "Are you sure?",
       text:
@@ -48,7 +48,7 @@ const PendingRiders = () => {
       confirmButtonText: status === "active" ? "Yes, Approve" : "Yes, Reject",
     }).then((result) => {
       if (result.isConfirmed) {
-        statusMutation.mutate({ id, status });
+        statusMutation.mutate({ id, status, email });
         refetch();
       }
     });
@@ -92,13 +92,17 @@ const PendingRiders = () => {
                   </button>
                   <button
                     className="btn btn-sm btn-success"
-                    onClick={() => handleStatusUpdate(rider._id, "active")}
+                    onClick={() =>
+                      handleStatusUpdate(rider._id, "active", rider.rider_email)
+                    }
                   >
                     Approve
                   </button>
                   <button
                     className="btn btn-sm btn-error"
-                    onClick={() => handleStatusUpdate(rider._id, "rejected")}
+                    onClick={() =>
+                      handleStatusUpdate(rider._id, "rejected", rider.rider_email)
+                    }
                   >
                     Cancel
                   </button>

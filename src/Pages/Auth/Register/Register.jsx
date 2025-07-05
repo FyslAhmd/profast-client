@@ -12,7 +12,7 @@ const Register = () => {
   const navigate = useNavigate();
   const axiosIns = useAxios();
   const { createUser, updateUserProfile } = useAuth();
-  const [profilePic, setProfilePic] = useState("");
+  const [profilePic, setProfilePic] = useState(regLogo);
   const {
     register,
     handleSubmit,
@@ -73,9 +73,9 @@ const Register = () => {
       <p className="">Register with Profast</p>
       <div className="relative mb-4">
         <img
-          src={regLogo}
+          src={profilePic}
           alt="Preview"
-          className="object-cover cursor-pointer rounded-lg"
+          className="object-cover cursor-pointer rounded-full w-12 h-12"
           onClick={() => document.getElementById("fileInput").click()}
         />
         <input

@@ -9,9 +9,13 @@ import {
   FaUserCircle,
   FaUserCheck,
   FaUserClock,
+  FaUserShield,
 } from "react-icons/fa";
+import useUserRole from "../Hooks/useUserRole";
 
 const DashboardLayout = () => {
+  const { role } = useUserRole();
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -80,18 +84,28 @@ const DashboardLayout = () => {
               Update Profile
             </NavLink>
           </li>
-          <li className="text-xl font-bold">
-            <NavLink to="/dashboard/activeRiders">
-              <FaUserCheck className="mr-2" />
-              Active Riders
-            </NavLink>
-          </li>
-          <li className="text-xl font-bold">
-            <NavLink to="/dashboard/pandingRiders">
-              <FaUserClock className="mr-2" />
-              Pending Riders
-            </NavLink>
-          </li>
+          {role === "admin" && (
+            <>
+              <li className="text-xl font-bold">
+                <NavLink to="/dashboard/activeRiders">
+                  <FaUserCheck className="mr-2" />
+                  Active Riders
+                </NavLink>
+              </li>
+              <li className="text-xl font-bold">
+                <NavLink to="/dashboard/pandingRiders">
+                  <FaUserClock className="mr-2" />
+                  Pending Riders
+                </NavLink>
+              </li>
+              <li className="text-xl font-bold">
+                <NavLink to="/dashboard/makeAdmin">
+                  <FaUserShield className="mr-2" />
+                  Make Admin
+                </NavLink>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </div>
