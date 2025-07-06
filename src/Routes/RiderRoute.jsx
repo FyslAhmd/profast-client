@@ -1,10 +1,10 @@
 import React from "react";
 import useAuth from "../Hooks/useAuth";
 import useUserRole from "../Hooks/useUserRole";
-import { Navigate } from "react-router";
 import LoadingPage from "../Pages/Shared/LoadingPage";
+import { Navigate } from "react-router";
 
-const AdminRoute = ({ children }) => {
+const RiderRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const { role, isLoading } = useUserRole();
 
@@ -12,11 +12,10 @@ const AdminRoute = ({ children }) => {
     return <LoadingPage />;
   }
 
-  if (!user || role !== "admin") {
+  if (!user || role !== "rider") {
     return <Navigate to="/forbidden" />;
   }
-
   return children;
 };
 
-export default AdminRoute;
+export default RiderRoute;

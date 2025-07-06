@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
@@ -21,6 +21,7 @@ const SendParcel = () => {
   const [selectedReceiverRegion, setSelectedReceiverRegion] = useState("");
   const [senderServiceCenters, setSenderServiceCenters] = useState([]);
   const [receiverServiceCenters, setReceiverServiceCenters] = useState([]);
+  const navigate = useNavigate();
 
   const regionData = loaderData.reduce((acc, curr) => {
     if (!acc[curr.region]) {
@@ -92,7 +93,7 @@ const SendParcel = () => {
     Swal.fire({
       title: "<strong>Delivery Cost Breakdown</strong>", // Strong title for a more professional look
       html: `
-    <div style="font-family: 'Arial', sans-serif; padding: 20px; color: #333; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 400px;">
+    <div style="font-family: 'Arial', sans-serif; padding: 20px; color: #333; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 450px;">
       <p style="font-size: 20px; font-weight: 600; color: #4a90e2;">Parcel Type:</p>
       <p style="font-size: 16px; font-weight: 500; margin-top: 5px; color: #333;">${parcelType}</p>
 
@@ -150,6 +151,7 @@ const SendParcel = () => {
                 showConfirmButton: false,
                 timer: 1500,
               });
+              navigate("/dashboard/myParcels");
             }
           })
           .catch((err) => {

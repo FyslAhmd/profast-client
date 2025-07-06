@@ -1,23 +1,29 @@
 import React from "react";
-import useAuth from "../../../Hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
+import LoadingPage from "../../Shared/LoadingPage";
+import useAuth from "../../../Hooks/useAuth";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const PaymentHistory = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
+
+  if (loading) {
+    return <LoadingPage></LoadingPage>;
+  }
 
   const { isPending, data: payments = [] } = useQuery({
     queryKey: ["payments", user.email],
+    enabled: !!user.email,
     queryFn: async () => {
-      const res = await axiosSecure.get(`/payments?email=${user.email}`);
+      const res = await axiosSecure.get(`/paymentsHistory?email=${user.email}`);
       return res.data;
     },
   });
   if (isPending) {
-    return <h1>Loading</h1>;
+    return <LoadingPage></LoadingPage>;
   }
   const formatDate = (date) => {
     return dayjs(date).locale("en").format("DD MMM YYYY, h:mm A");

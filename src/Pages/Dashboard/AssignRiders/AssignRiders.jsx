@@ -41,8 +41,12 @@ const AssignRiders = () => {
 
   // Assign rider mutation
   const assignMutation = useMutation({
-    mutationFn: async ({ parcelId, riderId }) => {
-      return axiosSecure.post("/assign-rider", { parcelId, riderId });
+    mutationFn: async ({ parcelId, riderId, rider_email }) => {
+      return axiosSecure.post("/assign-rider", {
+        parcelId,
+        riderId,
+        rider_email,
+      });
     },
     onSuccess: () => {
       Swal.fire("Success!", "Rider assigned to parcel.", "success");
@@ -60,8 +64,12 @@ const AssignRiders = () => {
     setModalOpen(true);
   };
 
-  const handleRiderAssign = (riderId) => {
-    assignMutation.mutate({ parcelId: selectedParcel._id, riderId });
+  const handleRiderAssign = (riderId, rider_email) => {
+    assignMutation.mutate({
+      parcelId: selectedParcel._id,
+      riderId,
+      rider_email,
+    });
   };
 
   return (
@@ -146,7 +154,7 @@ const AssignRiders = () => {
                             className="btn btn-success btn-sm"
                             onClick={(e) => {
                               e.preventDefault();
-                              handleRiderAssign(rider._id);
+                              handleRiderAssign(rider._id, rider.rider_email);
                             }}
                             disabled={assignMutation.isLoading}
                           >
