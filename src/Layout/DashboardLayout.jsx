@@ -10,6 +10,7 @@ import {
   FaUserCheck,
   FaUserClock,
   FaUserShield,
+  FaMotorcycle,
 } from "react-icons/fa";
 import useUserRole from "../Hooks/useUserRole";
 
@@ -102,6 +103,12 @@ const DashboardLayout = () => {
                 <NavLink to="/dashboard/makeAdmin">
                   <FaUserShield className="mr-2" />
                   Make Admin
+                </NavLink>
+              </li>
+              <li className="text-xl font-bold">
+                <NavLink to="/dashboard/assignRiders">
+                  <FaMotorcycle className="mr-2" />
+                  Assign Riders
                 </NavLink>
               </li>
             </>
