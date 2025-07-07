@@ -26,9 +26,9 @@ const ParcelSteps = () => {
   return (
       <div className="space-y-4 my-8">
         {data.map((item, index) => (
-          <div key={index} className="bg-white rounded-xl flex items-center gap-10 p-4">
-            <img src={item.image} className="w-44" alt="" />
-            <div className="divider divider-horizontal my-6"></div>
+          <div key={index} className="bg-white rounded-xl flex flex-col md:flex-row items-center gap-10 p-4">
+            <img src={item.image} className="w-12 md:w-44" alt="" />
+            <div className="divider divider-horizontal my-6 hidden md:block"></div>
             <div className="space-y-6">
               <h1 className="text-2xl font-extrabold">{item.title}</h1>
               <p className="font-medium">{item.description}</p>

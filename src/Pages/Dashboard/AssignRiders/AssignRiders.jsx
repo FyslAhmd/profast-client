@@ -84,7 +84,7 @@ const AssignRiders = () => {
               <th>Receiver Name</th>
               <th>Receiver Address</th>
               <th>Parcel Type</th>
-              <th>Cost</th>
+              <th>Delivary Status</th>
               <th>Date</th>
               <th>Action</th>
             </tr>
@@ -97,7 +97,7 @@ const AssignRiders = () => {
                 <td>{parcel.receiver_name}</td>
                 <td>{parcel.receiver_address}</td>
                 <td>{parcel.parcel_type}</td>
-                <td>TK. {parcel.cost}</td>
+                <td>TK. {parcel.delivary_status}</td>
                 <td>
                   {dayjs(parcel.creation_date).format("DD MMM YYYY, h:mm A")}
                 </td>

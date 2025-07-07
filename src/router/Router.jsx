@@ -21,6 +21,9 @@ import AdminRoute from "../Routes/AdminRoute";
 import AssignRiders from "../Pages/Dashboard/AssignRiders/AssignRiders";
 import RiderRoute from "../Routes/RiderRoute";
 import PendingDelivaries from "../Pages/Dashboard/PendingDelivaries/PendingDelivaries";
+import CompleteDelivaries from "../Pages/Dashboard/CompleteDelivaries/CompleteDelivaries";
+import DashboardHome from "../Pages/Dashboard/DashboardHome/DashboardHome";
+import UpdateProfile from "../Pages/Dashboard/UpdateProdile/UpdateProfile";
 
 export const router = createBrowserRouter([
   {
@@ -84,6 +87,11 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
+        index: true,
+        path: "home",
+        Component: DashboardHome,
+      },
+      {
         path: "myParcels",
         Component: MyParcels,
       },
@@ -100,10 +108,22 @@ export const router = createBrowserRouter([
         Component: TrackParcel,
       },
       {
+        path: 'updateProfile',
+        Component: UpdateProfile
+      },
+      {
         path: "pendingDelivaries",
         element: (
           <RiderRoute>
             <PendingDelivaries></PendingDelivaries>
+          </RiderRoute>
+        ),
+      },
+      {
+        path: "completeDelivaries",
+        element: (
+          <RiderRoute>
+            <CompleteDelivaries></CompleteDelivaries>
           </RiderRoute>
         ),
       },
