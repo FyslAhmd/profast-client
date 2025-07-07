@@ -6,10 +6,12 @@ import dayjs from "dayjs";
 import "dayjs/locale/bn";
 import Swal from "sweetalert2";
 import { Link } from "react-router";
+import { useState } from "react";
 
 const MyParcels = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const [selectedParcel, setSelectedParcel] = useState(null);
   const { data: parcels = [], refetch } = useQuery({
     queryKey: ["my-parcels", user.email],
     queryFn: async () => {
@@ -21,7 +23,9 @@ const MyParcels = () => {
     return dayjs(date).locale("en").format("DD MM YYYY, h:mm A");
   };
 
-  const handleView = (parcel) => {};
+  const handleView = (parcel) => {
+    setSelectedParcel(parcel);
+  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -121,6 +125,89 @@ const MyParcels = () => {
             ))}
           </tbody>
         </table>
+        {selectedParcel && (
+          <dialog open className="modal modal-bottom sm:modal-middle">
+            <form method="dialog" className="modal-box">
+              <h3 className="font-bold text-2xl mb-2">Parcel Details</h3>
+              <div className="space-y-1 text-base">
+                <p>
+                  <strong>Tracking ID:</strong> {selectedParcel.tracking_id}
+                </p>
+                <p>
+                  <strong>Parcel Type:</strong> {selectedParcel.parcel_type}
+                </p>
+                <p>
+                  <strong>Cost:</strong> TK. {selectedParcel.cost}
+                </p>
+                <p>
+                  <strong>Payment Status:</strong>{" "}
+                  {selectedParcel.payment_status}
+                </p>
+                <p>
+                  <strong>Delivery Status:</strong>{" "}
+                  {selectedParcel.delivary_status}
+                </p>
+                <p>
+                  <strong>Created At:</strong>{" "}
+                  {formatDate(selectedParcel.creation_date)}
+                </p>
+                <hr className="my-2" />
+                <h4 className="font-semibold">Sender Info</h4>
+                <p>
+                  <strong>Name:</strong> {selectedParcel.sender_name}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {selectedParcel.sender_number}
+                </p>
+                <p>
+                  <strong>Region:</strong> {selectedParcel.sender_region}
+                </p>
+                <p>
+                  <strong>Wire House:</strong>{" "}
+                  {selectedParcel.sender_wire_house}
+                </p>
+                <p>
+                  <strong>Address:</strong> {selectedParcel.sender_address}
+                </p>
+                <p>
+                  <strong>Pickup Instruction:</strong>{" "}
+                  {selectedParcel.pickup_instruction}
+                </p>
+                <hr className="my-2" />
+                <h4 className="font-semibold">Receiver Info</h4>
+                <p>
+                  <strong>Name:</strong> {selectedParcel.receiver_name}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {selectedParcel.reciever_number}
+                </p>
+                <p>
+                  <strong>Region:</strong> {selectedParcel.receiver_region}
+                </p>
+                <p>
+                  <strong>Wire House:</strong>{" "}
+                  {selectedParcel.receiver_wire_house}
+                </p>
+                <p>
+                  <strong>Address:</strong> {selectedParcel.receiver_address}
+                </p>
+                <p>
+                  <strong>Delivery Instruction:</strong>{" "}
+                  {selectedParcel.delivery_instruction}
+                </p>
+              </div>
+              <div className="modal-action">
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => setSelectedParcel(null)}
+                >
+                  Close
+                </button>
+              </div>
+            </form>
+          </dialog>
+        )}
       </div>
     </div>
   );

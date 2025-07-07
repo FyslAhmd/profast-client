@@ -25,7 +25,10 @@ const CompleteDelivaries = () => {
   // Mutation for cashout
   const cashOutMutation = useMutation({
     mutationFn: async ({ parcelId, income, rider_email }) => {
-      return axiosSecure.patch(`/parcels/${parcelId}/cashout`, { income, rider_email });
+      return axiosSecure.patch(`/parcels/${parcelId}/cashout`, {
+        income,
+        rider_email,
+      });
     },
     onSuccess: () => {
       Swal.fire("Success", "Cash out complete", "success");
@@ -33,7 +36,7 @@ const CompleteDelivaries = () => {
     },
     onError: () => {
       Swal.fire("Error", "Cash out failed", "error");
-    }
+    },
   });
 
   const calculateIncome = (parcel) => {
@@ -69,7 +72,9 @@ const CompleteDelivaries = () => {
           <tbody className="text-base font-medium">
             {parcels.length === 0 ? (
               <tr>
-                <td colSpan="8" className="text-center">No completed deliveries found.</td>
+                <td colSpan="8" className="text-center">
+                  No completed deliveries found.
+                </td>
               </tr>
             ) : (
               parcels.map((parcel, idx) => {
@@ -83,18 +88,20 @@ const CompleteDelivaries = () => {
                     <td>{parcel.sender_address}</td>
                     <td>
                       TK.{" "}
-                      <span className={isCashedOut ? "text-gray-400" : "text-green-700 font-bold"}>
-                        {isCashedOut ? "00" : income}
-                      </span>
+                      <span className="text-green-700 font-bold">{income}</span>
                     </td>
                     <td>
                       <button
-                        className={`btn btn-success btn-sm ${isCashedOut ? "btn-disabled bg-gray-400 border-gray-400" : ""}`}
+                        className={`btn btn-success btn-sm ${
+                          isCashedOut
+                            ? "btn-disabled bg-gray-400 border-gray-400"
+                            : ""
+                        }`}
                         onClick={() =>
                           cashOutMutation.mutate({
                             parcelId: parcel._id,
                             income,
-                            rider_email: user.email
+                            rider_email: user.email,
                           })
                         }
                         disabled={isCashedOut || cashOutMutation.isLoading}
