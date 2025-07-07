@@ -24,6 +24,7 @@ import PendingDelivaries from "../Pages/Dashboard/PendingDelivaries/PendingDeliv
 import CompleteDelivaries from "../Pages/Dashboard/CompleteDelivaries/CompleteDelivaries";
 import DashboardHome from "../Pages/Dashboard/DashboardHome/DashboardHome";
 import UpdateProfile from "../Pages/Dashboard/UpdateProdile/UpdateProfile";
+import MyEarnings from "../Pages/Dashboard/MyEarnings/MyEarnings";
 
 export const router = createBrowserRouter([
   {
@@ -108,8 +109,8 @@ export const router = createBrowserRouter([
         Component: TrackParcel,
       },
       {
-        path: 'updateProfile',
-        Component: UpdateProfile
+        path: "updateProfile",
+        Component: UpdateProfile,
       },
       {
         path: "pendingDelivaries",
@@ -124,6 +125,14 @@ export const router = createBrowserRouter([
         element: (
           <RiderRoute>
             <CompleteDelivaries></CompleteDelivaries>
+          </RiderRoute>
+        ),
+      },
+      {
+        path: "myEarnings",
+        element: (
+          <RiderRoute>
+            <MyEarnings></MyEarnings>
           </RiderRoute>
         ),
       },
