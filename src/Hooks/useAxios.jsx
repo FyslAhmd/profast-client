@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 
 const axiosIns = axios.create({
-  baseURL: `http://localhost:5000`,
+  baseURL: `https://pro-fast.vercel.app`,
 });
 
 const useAxios = () => {
