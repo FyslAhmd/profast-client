@@ -59,7 +59,7 @@ const DashboardLayout = () => {
         <ul className="menu bg-base-200 min-h-full w-80 p-4 space-y-3">
           <ProFastLogo />
           <li className="text-xl font-bold">
-            <NavLink to="/dashboard/home">
+            <NavLink to="/dashboard">
               <FaHome className="mr-2" />
               Home
             </NavLink>
