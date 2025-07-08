@@ -139,12 +139,6 @@ const SendParcel = () => {
         };
         console.log("Parcel Info Submitted:", parcelInfo);
 
-        //save data to server
-        fetch("http://localhost:5000/parcels", {
-          method: POST,
-          "content-type": "application/json",
-          body: JSON.stringify(parcelInfo),
-        });
         axiosSecure
           .post("/parcels", parcelInfo)
           .then((res) => {
